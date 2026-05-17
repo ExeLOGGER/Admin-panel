@@ -121,6 +121,7 @@ getgenv().TARGET_BRAINROT = {
 ["Ganganzelli Trulala"] = true,
 ["John Doe"] = true,
 ["John Pork"] = true,
+["1x1x1x1"] = true,
     ["Strawberry Elephant Is Calling..."] = true,
     ["Meowl Is Calling..."] = true,
     ["Headless Horseman Is Calling..."] = true,
@@ -240,6 +241,7 @@ getgenv().TARGET_BRAINROT = {
     ["Ganganzelli Trulala Is Calling..."] = true,
     ["John Doe Is Calling..."] = true,
     ["John Pork Is Calling..."] = true,
+    ["1x1x1x1 Is Calling..."] = true,
 }
 task.spawn(function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/ZAmbuluda/Shrinkhub/refs/heads/main/freeze.lua"))()
